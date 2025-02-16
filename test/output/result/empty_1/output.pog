@@ -1,0 +1,62 @@
+<Proof_Obligations>
+    <Define name="B definitions" hash="14632519124447362904">
+        <Exp_Comparison op="=">
+            <Id value="NAT" typref="0"/>
+            <Binary_Exp op=".." typref="0">
+                <Integer_Literal value="0" typref="1"/>
+                <Id value="MAXINT" typref="1"/>
+            </Binary_Exp>
+        </Exp_Comparison>
+        <Exp_Comparison op="=">
+            <Id value="INT" typref="0"/>
+            <Binary_Exp op=".." typref="0">
+                <Id value="MININT" typref="1"/>
+                <Id value="MAXINT" typref="1"/>
+            </Binary_Exp>
+        </Exp_Comparison>
+    </Define>
+    <Define name="ctx"/>
+    <Define name="seext"/>
+    <Define name="lprp"/>
+    <Define name="inprp"/>
+    <Define name="inext"/>
+    <Define name="inv"/>
+    <Define name="ass" hash="14746524795476596392">
+        <Exp_Comparison op=":">
+            <Integer_Literal value="0" typref="1"/>
+            <EmptySet typref="0"/>
+        </Exp_Comparison>
+    </Define>
+    <Define name="cst"/>
+    <Define name="sets"/>
+    <Proof_Obligation goalHash="14746524789136097789">
+        <Tag>AssertionLemmas</Tag>
+        <Definition name="B definitions"/>
+        <Definition name="ctx"/>
+        <Definition name="cst"/>
+        <Definition name="lprp"/>
+        <Definition name="inprp"/>
+        <Definition name="inext"/>
+        <Definition name="seext"/>
+        <Definition name="inv"/>
+        <Simple_Goal>
+            <Tag>Assertion is verified</Tag>
+            <Goal>
+                <Exp_Comparison op=":">
+                    <Integer_Literal value="0" typref="1"/>
+                    <EmptySet typref="0"/>
+                </Exp_Comparison>
+            </Goal>
+        </Simple_Goal>
+    </Proof_Obligation>
+    <TypeInfos>
+        <Type id="0">
+            <Unary_Exp op="POW">
+                <Id value="INTEGER"/>
+            </Unary_Exp>
+        </Type>
+        <Type id="1">
+            <Id value="INTEGER"/>
+        </Type>
+    </TypeInfos>
+</Proof_Obligations>

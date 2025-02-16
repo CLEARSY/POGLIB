@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: POGLoader
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: CLEARSY
+repository-code: 'https://github.com/CLEARSY/pptranspog'
+abstract: >
+  A C++ library to load POG files into memory.
+  Types, expressions and predicates are represented using the BAST library (available separately).
+license: GPL-3.0
