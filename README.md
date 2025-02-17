@@ -1,4 +1,4 @@
-# POGLoader
+# POGLIB
 
 A C++ library to load the contents of POG file into memory.
 Types, expressions and predicates are represented using the
@@ -14,7 +14,7 @@ Dependencies:
 
 ## Compiling
 
-The build process is based on `cmake`, which produces suitable Makefiles from the `CMakeLists.txt` provided here. 
+The build process is based on `cmake`, which produces suitable Makefiles from the `CMakeLists.txt` provided here.
 To build the code, run the following commands
 ```
 cmake -B build

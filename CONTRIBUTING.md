@@ -1,6 +1,6 @@
-# Contributing to POGLoader
+# Contributing to POGLIB
 
-First off, thank you for considering contributing to POGLoader! 
+First off, thank you for considering contributing to POGLIB!
 We welcome contributions from everyone, whether you're submitting a bug report, fixing a bug, requesting a new feature, or improving documentation.
 
 This document will guide you through the process of contributing to this project. Please take a moment to review it before submitting your contribution.
@@ -23,7 +23,7 @@ This document will guide you through the process of contributing to this project
 
 If you find a bug, please follow these steps to report it:
 
-1. **Check if the bug has already been reported** by searching the [issues](https://github.com/CLEARSY/b2smtlib/issues) page.
+1. **Check if the bug has already been reported** by searching the [issues](https://github.com/CLEARSY/POGLIB/issues) page.
 2. **Provide a clear description** of the bug, including:
    - Steps to reproduce
    - Expected behavior vs. actual behavior
@@ -44,7 +44,7 @@ To contribute code, follow these steps:
 
 1. **Contributor agreement**: Contributions are accepted provided CLEARSY holds a copy of the [Contributor License Agreement](#contributor-license-agreement-cla) signed by the authors of the contribution.
 
-2. **Identify issue**: Every contribution should correspond to a project [issue](https://github.com/CLEARSY/b2smtlib/issues). So make sure an issue corresponding to the contribution exists.
+2. **Identify issue**: Every contribution should correspond to a project [issue](https://github.com/CLEARSY/POGLIB/issues). So make sure an issue corresponding to the contribution exists.
 
 3. **Obtain issue acceptance**: If the issue has not been created by a project maintainer, ask that a maintainer accepts the issue (i.e., its contribution will eventually be considered for merging).
 
@@ -56,7 +56,7 @@ To contribute code, follow these steps:
 
 6. **Commit your changes**: Commit your changes with a clear, concise message.
 
-7. **Open a pull request**: Once you consider your work is ready, and verified it has not introduced a regression, open a pull request. 
+7. **Open a pull request**: Once you consider your work is ready, and verified it has not introduced a regression, open a pull request.
 
 8. **Pull request check-list**:
   - If this is your first contribution, attach a copy of the [Contributor License Agreement](#contributor-license-agreement-cla) with your signature to the pull request.
