@@ -27,20 +27,19 @@ else()
   set(PROJECT_IS_TOP_LEVEL FALSE)
 endif()
 
-if(PROJECT_IS_TOP_LEVEL)
-  foreach(submodule
-  "${PROJECT_SOURCE_DIR}/extern/BAST"
-  "${PROJECT_SOURCE_DIR}/extern/tinyxml2")
-  if(NOT EXISTS "${submodule}/CMakeLists.txt")
-      message(FATAL_ERROR "Submodule ${submodule} is missing: update submodules and try again.")
-      message(FATAL_ERROR "Command : git submodule update --init --recursive.")
-  endif()
-  add_subdirectory(${submodule})
-  endforeach(submodule)
+foreach(submodule
+"${PROJECT_SOURCE_DIR}/extern/BAST"
+"${PROJECT_SOURCE_DIR}/extern/tinyxml2")
+if(NOT EXISTS "${submodule}/CMakeLists.txt")
+    message(FATAL_ERROR "Submodule ${submodule} is missing: update submodules and try again.")
+    message(FATAL_ERROR "Command : git submodule update --init --recursive.")
 endif()
+endforeach(submodule)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/CMakeModules)
 
+add_subdirectory(extern/tinyxml2)
+add_subdirectory(extern/BAST)
 add_subdirectory(src)
 
 if(PROJECT_IS_TOP_LEVEL)
