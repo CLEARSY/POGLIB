@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(pog-translators)
+project(POGLIB_ROOT)
 
 # require the compiler to use C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -28,7 +28,21 @@ else()
 endif()
 
 if(PROJECT_IS_TOP_LEVEL)
-  foreach(submodule
+find_package(Qt6 COMPONENTS Core Xml)
+if(Qt6_FOUND)
+    message(STATUS "Using Qt6")
+    set(QT_VERSION 6)
+else()
+    find_package(Qt5 COMPONENTS Core Xml REQUIRED)
+    if(Qt5_FOUND)
+        message(STATUS "Using Qt5")
+        set(QT_VERSION 5)
+    else()
+        message(FATAL_ERROR "Neither Qt5 nor Qt6 found")
+    endif()
+endif()
+
+foreach(submodule
   "${PROJECT_SOURCE_DIR}/extern/BAST"
   "${PROJECT_SOURCE_DIR}/extern/tinyxml2")
   if(NOT EXISTS "${submodule}/CMakeLists.txt")

@@ -27,7 +27,11 @@ using std::variant;
 
 #include "gpred.h"
 #include "pred.h"
-#include "tinyxml2.h"
+// #include "tinyxml2.h"
+
+namespace tinyxml2 {
+class XMLDocument;
+}  // namespace tinyxml2
 
 namespace pog {
 

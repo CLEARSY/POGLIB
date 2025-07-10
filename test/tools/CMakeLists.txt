@@ -4,7 +4,7 @@ project(loadpog_test)
 
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
-	${POGLIB_SOURCE_DIR}
+    ${POGLIB_SOURCE_DIR}
 	${LIBBAST_SOURCE_DIR}
 )
 

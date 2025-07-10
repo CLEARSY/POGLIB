@@ -28,6 +28,7 @@
 #include "predReader.h"
 #include "predWriter.h"
 #include "substReader.h"
+#include "tinyxml2.h"
 
 bool isConj(const Pred& p) { return (p.getTag() == Pred::PKind::Conjunction); }
 
