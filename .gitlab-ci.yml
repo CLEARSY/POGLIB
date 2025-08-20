@@ -1,0 +1,104 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build
+
+build ubuntu-24.04:
+  image: ${CI_REGISTRY}/clearsy-public/bbatch-linux-docker/ubuntu-24.04
+  stage: build
+  tags:
+    - docker
+    - linux
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake -G Ninja ..
+    - cmake --build .
+    - cd ..
+
+build debian-11-qt5:
+  image: ${CI_REGISTRY}/clearsy-public/bbatch-linux-docker/debian-11
+  stage: build
+  tags:
+    - docker
+    - linux
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake -G Ninja ..
+    - cmake --build .
+    - cd ..
+
+build debian-11-qt6:
+  image: ${CI_REGISTRY}/clearsy-public/bbatch-linux-docker/debian-11-qt6
+  stage: build
+  tags:
+    - docker
+    - linux
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake -G Ninja ..
+    - cmake --build .
+    - cd ..
+
+build windows qt5:
+  image: ${CI_REGISTRY}/clearsy-public/qt-linux-docker/debian-windows:12.4-qt-5.15.12
+  tags:
+   - docker
+   - linux
+  stage: build
+  script:
+    - mkdir -p build-windows
+    - cd build-windows
+    - x86_64-w64-mingw32.shared.posix-cmake -G Ninja ..
+    - x86_64-w64-mingw32.shared.posix-cmake --build .
+    - cd ..
+
+build windows qt6:
+  image: ${CI_REGISTRY}/clearsy-public/qt-linux-docker/debian-windows:12.4-qt-6.6.1
+  tags:
+   - docker
+   - linux
+  stage: build
+  script:
+    - mkdir -p build-windows
+    - cd build-windows
+    - x86_64-w64-mingw32.shared.posix-cmake -G Ninja ..
+    - x86_64-w64-mingw32.shared.posix-cmake --build .
+    - cd ..
+
+build macos arm64:
+  tags:
+    - macos
+    - arm64
+  stage: build
+  script:
+    - mkdir -p build-macos
+    - cd build-macos
+    - cmake -G Ninja
+      -DCMAKE_PREFIX_PATH="$(brew --prefix);$(brew --prefix)/opt/qt@5"
+      -DCMAKE_FIND_USE_CMAKE_SYSTEM_PATH=TRUE
+      -DCMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH=TRUE
+      -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+      -DCMAKE_C_COMPILER=/usr/bin/clang
+      ..
+    - cmake --build .
+
+build macos x86_64:
+  tags:
+    - macos
+    - x86_64
+  stage: build
+  script:
+    - mkdir -p build-macos
+    - cd build-macos
+    - cmake -G Ninja
+      -DCMAKE_PREFIX_PATH="$(brew --prefix);$(brew --prefix)/opt/qt@5"
+      -DCMAKE_FIND_USE_CMAKE_SYSTEM_PATH=TRUE
+      -DCMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH=TRUE
+      -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+      -DCMAKE_C_COMPILER=/usr/bin/clang
+      ..
+    - cmake --build .
