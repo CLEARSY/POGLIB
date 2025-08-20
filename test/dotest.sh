@@ -23,21 +23,26 @@ mkdir -p "$outdir"
 $program "$inpdir/input.pog" > "$outdir/output.pog" 2> "$outdir/stderr"
 echo $? > "$outdir/exitcode"
 
+error=0
 diff "$outdir/exitcode" "$refdir/exitcode"
 if [ $? -ne 0 ]; then
     echo "Test failed: exitcode differs"
-    exit 1
+    error=1
 fi
 
 diff "$outdir/stderr" "$refdir/stderr"
 if [ $? -ne 0 ]; then
     echo "Test failed: stderr differs"
-    exit 1
+    error=1
 fi
 
 diff "$outdir/output.pog" "$refdir/output.pog"
 if [ $? -ne 0 ]; then
     echo "Test failed: output.pog differs"
+    error=1
+fi
+
+if [ $error -ne 0 ]; then
     exit 1
 fi
 
