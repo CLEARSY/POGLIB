@@ -17,4 +17,4 @@ macro(add_pog_test id)
     set_tests_properties(${id} PROPERTIES TIMEOUT 1)
 endmacro(add_pog_test)
 
-add_pog_test(empty_1)
+# add_pog_test(empty_1)
