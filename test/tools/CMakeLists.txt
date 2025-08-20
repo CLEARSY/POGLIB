@@ -16,5 +16,3 @@ get_target_property(LOADPOG_OUTPUT_DIRECTORY loadpog RUNTIME_OUTPUT_DIRECTORY)
 
 target_link_libraries(loadpog PRIVATE POGLIB BAST_LIB tinyxml2::tinyxml2)
 set(loadpog_EXE ${LOADPOG_OUTPUT_DIRECTORY}/loadpog${CMAKE_EXECUTABLE_SUFFIX} CACHE PATH "loadpog executable")
-message(STATUS "loadpog executable: ${loadpog_EXE}")
-message(STATUS "LOADPOG_OUTPUT_DIRECTORY: ${LOADPOG_OUTPUT_DIRECTORY}")
