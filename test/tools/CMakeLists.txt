@@ -11,4 +11,4 @@ include_directories(
 add_executable(loadpog loadpog.cpp)
 
 target_link_libraries(loadpog PRIVATE POGLIB BAST_LIB tinyxml2::tinyxml2)
-set(loadpog_EXE ${CMAKE_CURRENT_BINARY_DIR}/loadpog CACHE PATH "loadpog executable")
+set(loadpog_EXE $<TARGET_FILE:loadpog>¶ CACHE PATH "loadpog executable path")
