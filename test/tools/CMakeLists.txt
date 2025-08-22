@@ -14,5 +14,5 @@ add_executable(loadpog loadpog.cpp)
 
 get_target_property(LOADPOG_OUTPUT_DIRECTORY loadpog RUNTIME_OUTPUT_DIRECTORY)
 
-target_link_libraries(loadpog PRIVATE POGLIB BAST_LIB tinyxml2::tinyxml2)
+target_link_libraries(loadpog PRIVATE POGLIB BAST_LIB)
 set(loadpog_EXE ${LOADPOG_OUTPUT_DIRECTORY}/loadpog${CMAKE_EXECUTABLE_SUFFIX} CACHE PATH "loadpog executable")
