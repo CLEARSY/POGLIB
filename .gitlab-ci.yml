@@ -1,8 +1,26 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_FORCE_HTTPS: "true"
 
 stages:
+  - lint
   - build
+
+clang-format-check:
+  image: xianpengshen/clang-tools:19
+  stage: lint
+  tags:
+    - docker
+    - linux
+  script:
+    - FILES=$(find src -type f \( -name '*.cpp' -o -name '*.h'
+      \))
+    - |
+      if [ -n "$FILES" ]; then
+        clang-format --version
+        # Check formatting (non-zero exit if diff exists)
+        clang-format -style=file -n --Werror $FILES
+      fi
 
 build ubuntu-24.04:
   image: ${CI_REGISTRY}/clearsy-public/bbatch-linux-docker/ubuntu-24.04
