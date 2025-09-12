@@ -1,6 +1,6 @@
 /** pog.cpp
 
-   \copyright Copyright © CLEARSY 2022
+   \copyright Copyright © CLEARSY 2022-2025
    \license This file is part of POGLIB.
 
    POGLIB is free software: you can redistribute it and/or modify it
@@ -20,6 +20,7 @@
 
 #include <iostream>
 
+#include "btypeReader.h"
 #include "exprDesc.h"
 #include "exprReader.h"
 #include "exprWriter.h"
@@ -50,36 +51,33 @@ BType readType(const tinyxml2::XMLElement* dom) {
       return BType::BOOL;
     } else {
       if (dom->Attribute("suffix") != nullptr)
-        throw pog::PogException(
-            "Abstract or Concrete Set with suffix.");  // this constraint could
-                                                       // be removed
+        throw pog::PogException("Abstract or Concrete Set with suffix.");
       return BType::INT;
     }
   } else if (strcmp(tag, "Unary_Exp") == 0) {
     const char* op = dom->Attribute("op");
-    if (op == nullptr ||
-        strcmp(op, "POW") != 0) {  // Added null and value check
+    if (op == nullptr || strcmp(op, "POW") != 0) {
       throw pog::PogException(
           "Expected 'op' attribute with value 'POW' in 'Unary_Exp' tag.");
     }
     const tinyxml2::XMLElement* firstChild = dom->FirstChildElement();
-    if (firstChild == nullptr) {  // Added null check
+    if (firstChild == nullptr) {
       throw pog::PogException("Expected child element in 'Unary_Exp' tag.");
     }
     return BType::POW(readType(firstChild));
   } else if (strcmp(tag, "Binary_Exp") == 0) {
     const char* op = dom->Attribute("op");
-    if (op == nullptr || strcmp(op, "*") != 0) {  // Added null and value check
+    if (op == nullptr || strcmp(op, "*") != 0) {
       throw pog::PogException(
           "Expected 'op' attribute with value '*' in 'Binary_Exp' tag.");
     }
     const tinyxml2::XMLElement* fst = dom->FirstChildElement();
-    if (fst == nullptr) {  // Added null check
+    if (fst == nullptr) {
       throw pog::PogException(
           "Expected first child element in 'Binary_Exp' tag.");
     }
     const tinyxml2::XMLElement* snd = fst->NextSiblingElement();
-    if (snd == nullptr) {  // Added null check
+    if (snd == nullptr) {
       throw pog::PogException(
           "Expected second child element in 'Binary_Exp' tag.");
     }
@@ -90,35 +88,31 @@ BType readType(const tinyxml2::XMLElement* dom) {
              dom->FirstChildElement("Record_Item");
          item != nullptr; item = item->NextSiblingElement("Record_Item")) {
       const char* label = item->Attribute("label");
-      if (label == nullptr) {  // Added null check
+      if (label == nullptr) {
         throw pog::PogException(
             "Missing 'label' attribute in 'Record_Item' tag.");
       }
       const tinyxml2::XMLElement* fieldTypeElement = item->FirstChildElement();
-      if (fieldTypeElement == nullptr) {  // Added null check
+      if (fieldTypeElement == nullptr) {
         throw pog::PogException("Missing child element in 'Record_Item' tag.");
       }
       fields.push_back({label, readType(fieldTypeElement)});
     }
     return BType::STRUCT(fields);
   } else {
-    throw pog::PogException("Unexpected Tag: " +
-                            std::string(tag));  // More informative exception
+    throw pog::PogException("Unexpected Tag: " + std::string(tag));
   }
-  assert(false);      // unreachable
-  return BType::INT;  // Added default return to avoid warning, though ideally
-                      // unreachable
+  throw pog::PogException("Internal error while reading type, line " +
+                          std::to_string(dom->GetLineNum()));
 }
 
-void readTypeInfos(
-    const tinyxml2::XMLElement* dom,
-    std::vector<BType>& typeInfosOut) {  // Modified to take output vector and
-                                         // const input vector
-  assert(typeInfosOut.empty());  // Renamed to typeInfosOut and check if empty
+void readTypeInfos(const tinyxml2::XMLElement* dom,
+                   std::vector<BType>& typeInfosOut, const char* tag = "Type") {
+  assert(typeInfosOut.empty());
   if (dom != nullptr) {
     int cpt = 0;
-    for (tinyxml2::XMLElement const* typ = dom->FirstChildElement("Type");
-         typ != nullptr; typ = typ->NextSiblingElement("Type")) {
+    for (tinyxml2::XMLElement const* typ = dom->FirstChildElement(tag);
+         typ != nullptr; typ = typ->NextSiblingElement(tag)) {
       bool ok = false;
       int typref = 0;
       const char* idAttr = typ->Attribute("id");
@@ -137,7 +131,7 @@ void readTypeInfos(
       if (typeElement == nullptr) {  // Added null check
         throw pog::PogException("Expected child element in 'Type' tag.");
       }
-      typeInfosOut.push_back(readType(typeElement));  // Use typeInfosOut
+      typeInfosOut.push_back(readType(typeElement));
       cpt++;
     }
   }
@@ -148,7 +142,7 @@ pog::Set readSet(const std::vector<BType>& typeInfos,
   std::vector<TypedVar> vec;
   const tinyxml2::XMLElement* enumeratedValues =
       dom->FirstChildElement("Enumerated_Values");
-  if (enumeratedValues != nullptr) {  // Check if Enumerated_Values exists
+  if (enumeratedValues != nullptr) {
     for (tinyxml2::XMLElement const* elt =
              enumeratedValues->FirstChildElement("Id");
          elt != nullptr; elt = elt->NextSiblingElement("Id")) {
@@ -166,9 +160,17 @@ pog::pog pog::read(tinyxml2::XMLDocument& pogDoc) {
   auto root = pogDoc.RootElement();
   if (root == nullptr)
     throw PogException("Proof_Obligations root element expected.");
-  // TypeInfos
-  auto typeInfosElement = root->FirstChildElement("TypeInfos");
-  readTypeInfos(typeInfosElement, res.typeInfos);
+
+  // Types: prefer RichTypesInfo over TypeInfos
+  auto typeInfosElement = root->FirstChildElement("RichTypesInfo");
+  if (typeInfosElement != nullptr) {
+    Xml::readRichTypesInfo(typeInfosElement, res.typeInfos);
+  } else {
+    typeInfosElement = root->FirstChildElement("TypeInfos");
+    if (typeInfosElement == nullptr)
+      throw PogException("TypeInfos or RichTypesInfo element expected.");
+    Xml::readTypeInfos(typeInfosElement, res.typeInfos);
+  }
 
   // Defines
   for (tinyxml2::XMLElement const* e = root->FirstChildElement("Define");
