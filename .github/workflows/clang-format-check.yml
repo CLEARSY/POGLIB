@@ -1,0 +1,30 @@
+name: Clang Format Check
+
+on:
+  push:
+    paths:
+      - 'src/**/*.cpp'
+      - 'src/**/*.h'
+  pull_request:
+    paths:
+      - 'src/**/*.cpp'
+      - 'src/**/*.h'
+
+jobs:
+  clang-format-check:
+    runs-on: ubuntu-latest
+    container:
+      image: xianpengshen/clang-tools:19
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run clang-format check
+        run: |
+          FILES=$(find src -type f \( -name '*.cpp' -o -name '*.h' \))
+          if [ -n "$FILES" ]; then
+            clang-format --version
+            clang-format -style=file -n --Werror $FILES
+          fi
+
