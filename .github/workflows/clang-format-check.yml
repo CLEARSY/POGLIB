@@ -3,12 +3,12 @@ name: Clang Format Check
 on:
   push:
     paths:
-      - 'src/**/*.cpp'
-      - 'src/**/*.h'
+      - 'src/*.cpp'
+      - 'src/*.h'
   pull_request:
     paths:
-      - 'src/**/*.cpp'
-      - 'src/**/*.h'
+      - 'src/*.cpp'
+      - 'src/*.h'
 
 jobs:
   clang-format-check:
