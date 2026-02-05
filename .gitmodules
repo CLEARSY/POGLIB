@@ -2,3 +2,6 @@
 	path = extern/BAST
 	url = https://github.com/CLEARSY/BAST.git
 	branch = main
+[submodule "extern/tinyxml2"]
+	path = extern/tinyxml2
+	url = https://github.com/leethomason/tinyxml2.git
