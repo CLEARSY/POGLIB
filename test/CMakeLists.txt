@@ -18,3 +18,4 @@ macro(add_pog_test id)
 endmacro(add_pog_test)
 
 # add_pog_test(empty_1)
+# add_pog_test(emptyseq_1)
